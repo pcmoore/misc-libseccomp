@@ -198,44 +198,102 @@ struct scmp_arg_cmp {
  */
 #define SCMP_SYS(x)		(__NR_##x)
 
+/* Helper function for the 32-bit argument comparison macros */
+static inline struct scmp_arg_cmp __scmp_arg_32(struct scmp_arg_cmp a)
+{
+	struct scmp_arg_cmp b = {
+		.arg = a.arg,
+		.op = a.op,
+		.datum_a = (uint32_t)a.datum_a,
+		.datum_b = (uint32_t)a.datum_b,
+	};
+	return b;
+}
+
 /**
- * Specify an argument comparison struct for use in declaring rules
+ * Specify a 64-bit argument comparison struct for use in declaring rules
  * @param arg the argument number, starting at 0
  * @param op the comparison operator, e.g. SCMP_CMP_*
  * @param datum_a dependent on comparison
  * @param datum_b dependent on comparison, optional
  */
-#define SCMP_CMP(...)		((struct scmp_arg_cmp){__VA_ARGS__})
+#define SCMP_CMP64(...)		((struct scmp_arg_cmp){__VA_ARGS__})
+#define SCMP_CMP		SCMP_CMP64
 
 /**
- * Specify an argument comparison struct for argument 0
+ * Specify a 32-bit argument comparison struct for use in declaring rules
+ * @param arg the argument number, starting at 0
+ * @param op the comparison operator, e.g. SCMP_CMP_*
+ * @param datum_a dependent on comparison (32-bits)
+ * @param datum_b dependent on comparison, optional (32-bits)
  */
-#define SCMP_A0(...)		SCMP_CMP(0, __VA_ARGS__)
+#define SCMP_CMP32(...)		(__scmp_arg_32(SCMP_CMP64(__VA_ARGS__)))
 
 /**
- * Specify an argument comparison struct for argument 1
+ * Specify a 64-bit argument comparison struct for argument 0
  */
-#define SCMP_A1(...)		SCMP_CMP(1, __VA_ARGS__)
+#define SCMP_A0_64(...)		SCMP_CMP64(0, __VA_ARGS__)
+#define SCMP_A0			SCMP_A0_64
 
 /**
- * Specify an argument comparison struct for argument 2
+ * Specify a 32-bit argument comparison struct for argument 0
  */
-#define SCMP_A2(...)		SCMP_CMP(2, __VA_ARGS__)
+#define SCMP_A0_32(...)		SCMP_CMP32(0, __VA_ARGS__)
 
 /**
- * Specify an argument comparison struct for argument 3
+ * Specify a 64-bit argument comparison struct for argument 1
  */
-#define SCMP_A3(...)		SCMP_CMP(3, __VA_ARGS__)
+#define SCMP_A1_64(...)		SCMP_CMP64(1, __VA_ARGS__)
+#define SCMP_A1			SCMP_A1_64
 
 /**
- * Specify an argument comparison struct for argument 4
+ * Specify a 32-bit argument comparison struct for argument 1
  */
-#define SCMP_A4(...)		SCMP_CMP(4, __VA_ARGS__)
+#define SCMP_A1_32(...)		SCMP_CMP32(1, __VA_ARGS__)
 
 /**
- * Specify an argument comparison struct for argument 5
+ * Specify a 64-bit argument comparison struct for argument 2
  */
-#define SCMP_A5(...)		SCMP_CMP(5, __VA_ARGS__)
+#define SCMP_A2_64(...)		SCMP_CMP64(2, __VA_ARGS__)
+#define SCMP_A2			SCMP_A2_64
+
+/**
+ * Specify a 32-bit argument comparison struct for argument 2
+ */
+#define SCMP_A2_32(...)		SCMP_CMP32(2, __VA_ARGS__)
+
+/**
+ * Specify a 64-bit argument comparison struct for argument 3
+ */
+#define SCMP_A3_64(...)		SCMP_CMP64(3, __VA_ARGS__)
+#define SCMP_A3			SCMP_A3_64
+
+/**
+ * Specify a 32-bit argument comparison struct for argument 3
+ */
+#define SCMP_A3_32(...)		SCMP_CMP32(3, __VA_ARGS__)
+
+/**
+ * Specify a 64-bit argument comparison struct for argument 4
+ */
+#define SCMP_A4_64(...)		SCMP_CMP64(4, __VA_ARGS__)
+#define SCMP_A4			SCMP_A4_64
+
+/**
+ * Specify a 32-bit argument comparison struct for argument 4
+ */
+#define SCMP_A4_32(...)		SCMP_CMP32(4, __VA_ARGS__)
+
+/**
+ * Specify a 64-bit argument comparison struct for argument 5
+ */
+#define SCMP_A5_64(...)		SCMP_CMP64(5, __VA_ARGS__)
+#define SCMP_A5			SCMP_A5_64
+
+/**
+ * Specify a 32-bit argument comparison struct for argument 5
+ */
+#define SCMP_A5_32(...)		SCMP_CMP32(5, __VA_ARGS__)
 
 /*
  * seccomp actions
