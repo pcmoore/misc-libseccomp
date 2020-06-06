@@ -94,6 +94,22 @@ static int _rc_filter(int err)
 }
 
 /**
+ * Filter the error codes we send back to callers
+ * @param err the error code
+ * @param col the filter collection
+ *
+ * This is similar to _rc_filter(), but it first checks the filter attribute
+ * to determine if we should be filtering the return codes.
+ *
+ */
+static int _rc_filter_col(int err, struct db_filter_col *col)
+{
+	if (db_col_attr_read(col, SCMP_FLTATR_API_SYSRAWRC))
+		return err;
+	return _rc_filter(err);
+}
+
+/**
  * Validate a filter context
  * @param ctx the filter context
  *
