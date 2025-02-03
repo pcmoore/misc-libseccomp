@@ -180,6 +180,14 @@ struct seccomp_notif_resp {
 	__u32 flags;
 };
 
+struct seccomp_notif_addfd {
+	__u64 id;
+	__u32 flags;
+	__u32 srcfd;
+	__u32 newfd;
+	__u32 newfd_flags;
+};
+
 #define SECCOMP_IOC_MAGIC               '!'
 #define SECCOMP_IO(nr)                  _IO(SECCOMP_IOC_MAGIC, nr)
 #define SECCOMP_IOR(nr, type)           _IOR(SECCOMP_IOC_MAGIC, nr, type)
@@ -215,4 +223,5 @@ int sys_notify_alloc(struct seccomp_notif **req,
 int sys_notify_receive(int fd, struct seccomp_notif *req);
 int sys_notify_respond(int fd, struct seccomp_notif_resp *resp);
 int sys_notify_id_valid(int fd, uint64_t id);
+int sys_notify_addfd(int fd, struct seccomp_notif_addfd *addfd);
 #endif
