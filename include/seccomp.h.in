@@ -406,6 +406,11 @@ struct seccomp_notif_resp {
 	__u32 flags;
 };
 
+#endif
+
+/* seccomp_notif_addfd and ADDFD_FLAG_SETFD was added in kernel v5.10 */
+#ifndef SECCOMP_ADDFD_FLAG_SETFD
+#define SECCOMP_ADDFD_FLAG_SETFD	(1UL << 0)
 struct seccomp_notif_addfd {
 	__u64 id;
 	__u32 flags;
